@@ -1,63 +1,99 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Project Leurne</title>
-        <link rel="stylesheet" type="text/css" href="{{ style_index_url }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,400i,700,900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="{{ template_args.style_index_url }}">
+    <title>Synchron.iz</title>
+</head>
 
-    </head>
+<body>
+    <header>
+        <div class="navbar">
+            <svg id="logoSync"
+                 width="104"
+                 height="95"
+                 viewBox="0 0 104 95"
+                 fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0)">
+                    <path d="M51.5 59L17.292 -0.249999L85.708 -0.249993L51.5 59Z"
+                          fill="#FF9494" />
+                    <g style="mix-blend-mode:hard-light">
+                        <path d="M51.5 74L13.8279 8.75L89.1721 8.75001L51.5 74Z"
+                              fill="#25606C" />
+                    </g>
+                    <g style="mix-blend-mode:hard-light">
+                        <path d="M51.5 95L1.70354 8.75L101.296 8.75001L51.5 95Z"
+                              fill="#25606C" />
+                    </g>
+                </g>
+                <defs>
+                    <clipPath id="clip0">
+                        <rect width="104"
+                              height="95"
+                              fill="white" />
+                    </clipPath>
+                </defs>
+            </svg>
 
-    <body>
-        <header>
-            <h1>Project Leurne</h1>
-        </header>
-
-        <br><br><br><br>
-
-
-        <div id="mainDiv">
-            <button id="joinRoomButton" onclick="onClickJoinRoomButton()">Join</button>
-            <br><br>
-            <button id="createRoomButton" onclick="onClickCreateRoomButton()">Create</button>
+            <ul id="menu">
+                <li>New room</li>
+                <li>Join a room</li>
+                <li>About</li>
+            </ul>
         </div>
+    </header>
+    <main>
+        <div class="appContainer">
+            <div id="viewbox"></div>
 
+            <div id="playlist">
+                <div class="listTitle">
+                    <h3>En attente :</h3>
+                </div>
+                <!--
+                <div class="playlistVideo">
+                    <img class="videoThumbnail"
+                         src="exempleVideoThumbnail.jpg"
+                         alt="youtubeThumbnail">
+                    <p class="videoInfos"><span class="videoName">Vue JS Crash Course</span> by : <span
+                              class="videoOwner">Traversy Media</span></p>
+                </div> -->
 
-
-        <!--
-        <div id="mainDiv">
-
-            <div id="formDiv">
-                <h2>Renseignement</h2>
-                <input type="text" id="name" placeholder="Entrer votre nom"/>
-                <br>
-                <button id="sendButton" onclick="valid()">Envoyer le nom</button>
+                <footer class="playlistFooter">
+                    <div class="addButtonDiv">
+                        <input type="text" id="addVideoText" placeholder="URL de la vidéo">
+                        <button id="addVideoButton" onclick="onClickAddVideoButton()">Ajouter une vidéo</button>
+                    </div>
+                </footer>
             </div>
-            <br><br>
 
-            <div id="message">
-
+            <div id="userlist">
+                <div class="listTitle">
+                    <h3>Actuellement connecté(e)(s) :</h3>
+                </div>
+                <div class="user">
+                    <img class="userPic"
+                         src="{{ template_args.default_user_img }}"
+                         alt="userPhoto">
+                    <p id="userNameID" class="userName">{{ template_args.current_user.get_pseudo() }}</p>
+                </div>
             </div>
-
         </div>
-        -->
+    </main>
+    <footer>
 
-        <footer>
+    </footer>
 
-        </footer>
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="{{ script_index_url }}"></script>
-
-        <!-- <script src="scripts/index.js"></script>
-        <script>function valid() {
-            alert("yo");
-            $.getJSON('/hello/' + $('#name').val())
-                .done(function(data) {
-                    $('#message').html(data.message);
-                });
-        }</script>
-         -->
-    </body>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="{{ template_args.scripts_index_url }}"></script>
+</body>
 
 </html>
