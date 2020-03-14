@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Project Leurne</title>
+        <link rel="stylesheet" type="text/css" href="{{ style_index_url }}">
+
+    </head>
+
+    <body>
+        <header>
+            <h1>Project Leurne</h1>
+        </header>
+
+        <br><br><br><br>
+
+
+        <div id="mainDiv">
+            <button id="joinRoomButton" onclick="onClickJoinRoomButton()">Join</button>
+            <br><br>
+            <button id="createRoomButton" onclick="onClickCreateRoomButton()">Create</button>
+        </div>
+
+
+
+        <!--
+        <div id="mainDiv">
+
+            <div id="formDiv">
+                <h2>Renseignement</h2>
+                <input type="text" id="name" placeholder="Entrer votre nom"/>
+                <br>
+                <button id="sendButton" onclick="valid()">Envoyer le nom</button>
+            </div>
+            <br><br>
+
+            <div id="message">
+
+            </div>
+
+        </div>
+        -->
+
+        <footer>
+
+        </footer>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="{{ script_index_url }}"></script>
+
+        <!-- <script src="scripts/index.js"></script>
+        <script>function valid() {
+            alert("yo");
+            $.getJSON('/hello/' + $('#name').val())
+                .done(function(data) {
+                    $('#message').html(data.message);
+                });
+        }</script>
+         -->
+    </body>
+
+</html>
