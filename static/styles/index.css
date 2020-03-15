@@ -48,7 +48,7 @@ body {
   grid-column-end: 4;
   margin: 15px;
 
-  background-color: dimgrey;
+  background-color: #ecf0f1;
 }
 
 #playlist {
@@ -59,7 +59,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background-color: darkseagreen;
+  background-color: #ecf0f1;
 }
 
 .playlistVideo {
@@ -97,7 +97,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background-color: tomato;
+  background-color: #ecf0f1;
 }
 
 .user {

@@ -83,6 +83,7 @@ def on_join(data):
     room = data['room']
     join_room(room)
     print("UN UTILISATEUR (%s)A REJOINT LE ROOM (%s) " % (username, room))
+    emit('join', 'Vous rejoignez la room %s' % room)
 
     if room not in sockets_rooms:
         sockets_rooms[room] = []
@@ -90,6 +91,15 @@ def on_join(data):
     else:
         sockets_rooms[room].append(username)
 
+    tell_to_users_to_update_userlist(room)
+
+
+def tell_to_users_to_update_userlist(room):
+    emit('clear', 'clear the div', room=room)
+
+    for i in sockets_rooms[room]:
+        emit('appendUser', (i, url_for('static', filename='res/img/defaultUser.png')), room=room)
+
 
 if __name__ == '__main__':
-    socket_io.run(app)
+    socket_io.run(app, host='0.0.0.0')
