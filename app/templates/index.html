@@ -43,7 +43,7 @@
             </svg>
 
             <ul id="menu">
-                <li>New room</li>
+                <li> <a href="/"> New room </a> </li>
                 <li>Join a room</li>
                 <li>About</li>
             </ul>
@@ -51,13 +51,20 @@
     </header>
     <main>
         <div class="appContainer">
-            <div id="viewbox"></div>
+            <div id="viewbox">
+                <div class="videoFrame"></div>
+                <div id="videoFramTitleContainer">
+                    <h2 id=""></h2>
+                </div>
+            </div>
 
             <div id="playlist">
                 <div class="listTitle">
                     <h3>En attente :</h3>
                 </div>
-
+                <div class="innerPlaylist">
+                    <!-- append -->
+                </div>
                 <!--
                 <div class="playlistVideo">
                     <img class="videoThumbnail"
@@ -68,12 +75,13 @@
                 </div>
                 -->
 
-                <footer class="playlistFooter">
-                    <div class="addButtonDiv">
-                        <input type="text" id="addVideoText" placeholder="URL de la vidéo">
-                        <button id="addVideoButton" onclick="onClickAddVideoButton()">Ajouter une vidéo</button>
-                    </div>
-                </footer>
+                <div class="addButtonDiv">
+                    <input type="text"
+                           id="addVideoText"
+                           placeholder="URL de la vidéo">
+                    <button id="addVideoButton"
+                            onclick="onClickAddVideoButton()">Add</button>
+                </div>
             </div>
 
             <div id="userlist">
