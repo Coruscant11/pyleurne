@@ -24,8 +24,7 @@ body {
   color: white;
 }
 
-menu,
-a {
+menu, a {
   text-decoration: none;
   color: white;
 }
@@ -51,11 +50,10 @@ a {
   grid-column-end: 4;
   margin: 15px;
 
-  background-color: #ecf0f1;
+  /*background-color: #ecf0f1;*/
 }
 
 .videoFrame {
-  background-color: green;
   position: relative;
   width: 100%;
   padding-top: 56.25%; /* 16:9 Aspect Ratio */
@@ -71,7 +69,11 @@ a {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: #ecf0f1;
+  /*background-color: #ecf0f1;*/
+
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ecf0f1;
 }
 
 .playlistVideo {
@@ -134,10 +136,20 @@ a {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background-color: #ecf0f1;
+  /*background-color: #ecf0f1;*/
+
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ecf0f1;
 }
 #innerUserList {
   width: 100%;
+  overflow: auto;
+}
+
+#innerPlaylist {
+  width: 100%;
+  overflow: auto;
 }
 .user {
   width: 90%;
