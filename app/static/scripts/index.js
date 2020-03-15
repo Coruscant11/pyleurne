@@ -1,5 +1,6 @@
 let username = document.getElementById('userNameID').innerHTML;
 let roomID = window.location.href.substring(window.location.href.lastIndexOf('/') + 1 );
+let userNumber;
 let socket = io();
 
 
@@ -7,6 +8,7 @@ let socket = io();
 function clearUsersList() {
     let userlist = document.getElementById('userlist');
     let users = document.getElementsByClassName('user');
+    userNumber = 0; 
 
     while(users[0]) {
         users[0].parentNode.removeChild(users[0]);
@@ -16,11 +18,18 @@ function clearUsersList() {
 /* Ajoute dynamiquement une div contenant un user à la liste */
 function addUserOnUsersList(username, imgPath) {
 
+    /* Incrémentation et check nombre de users */
+
+    userNumber += 1;
+    isManyPeopleConnected();
+
     /* Création des éléments */
-    let userList = document.getElementById('userlist');
+    let userList = document.getElementById('innerUserList');
+    console.log(userList);
     let div = document.createElement("div");
     let img = document.createElement("img");
     let p = document.createElement("p");
+    
 
     /* On attribue leurs paramètres */
     div.className = "user";
@@ -55,8 +64,12 @@ function onClickAddVideoButton() {
 }
 /** ------    FIN BOUTONS          ----------- */
 
-//chibre
-
+/** ------      Connecté ça prends un s        ----------- */
+function isManyPeopleConnected() {  
+    if (userNumber > 1) {
+        document.querySelector('#listTitle').innerHTML = 'Actuellement connectés:';
+    }
+}
 /** ----------- PARTIE SOCKETS ------------ **/
 
 /** Réponse random du serveur **/
