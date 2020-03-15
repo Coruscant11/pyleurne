@@ -52,7 +52,9 @@
     <main>
         <div class="appContainer">
             <div id="viewbox">
-                <div class="videoFrame"></div>
+                <!-- <div class="videoFrame" style="background-image: url({{ template_args.no_video_img }})"></div> -->
+                <div id="player" class="videoFrame"></div>
+
                 <div id="videoFramTitleContainer">
                     <h2 id=""></h2>
                 </div>
@@ -62,7 +64,7 @@
                 <div class="listTitle">
                     <h3>En attente :</h3>
                 </div>
-                <div class="innerPlaylist">
+                <div id="innerPlaylist">
                     <!-- append -->
                 </div>
                 <!--
@@ -88,8 +90,7 @@
                 <div class="listTitle">
                     <h3 id="listTitle">Actuellement connecté:</h3>
                 </div>
-                <div id="innerUserList"
-                     style="overflow:scroll">
+                <div id="innerUserList">
                     <div class="user">
                         <img class="userPic"
                              src="{{ template_args.default_user_img }}"

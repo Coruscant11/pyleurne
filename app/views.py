@@ -41,6 +41,7 @@ def show_room_page(room_id):
     template_args = {'style_index_url': url_for('static', filename='styles/index.css'),
                      'scripts_index_url': url_for('static', filename='scripts/index.js'),
                      'default_user_img': url_for('static', filename='res/img/defaultUser.png'),
+                     'no_video_img': url_for('static', filename='res/img/noVideoImg.png'),
                      'users': room_users,
                      'current_user': current_user,
                      'roomID': room_id
@@ -101,10 +102,11 @@ def on_join(data):
         sockets_rooms[room].append(username)
 
     tell_to_users_to_update_userlist(room)
+    tell_to_users_to_update_playlist(room)
 
 
 def tell_to_users_to_update_userlist(room):
-    print("\nEmit d'ordre de refresh userlist pour room[%s]..." % room)
+    print("\nEmit d'ordre de refresh userlist pour room[%s][%s]..." % (room, type(room)))
     emit('clearuserlist', 'Rafraichissement userlist', room=room)
 
     for i in sockets_rooms[room]:
@@ -138,7 +140,7 @@ def handle_video_add_request(data):
 
 
 def tell_to_users_to_update_playlist(room_id):
-    print("\nEmit d'ordre de refresh playlist pour room[%s]..." % room_id)
+    print("\nEmit d'ordre de refresh playlist pour room[%s][%s]..." % (room_id, type(room_id)))
     emit('clearplaylist', "Rafraichissement playlist", room=room_id)
 
     for i in room_manager.get_room_list()[room_id].get_playlist_manager().get_playlist():
