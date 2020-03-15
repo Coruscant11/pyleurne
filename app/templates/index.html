@@ -43,7 +43,7 @@
             </svg>
 
             <ul id="menu">
-                <li>New room</li>
+                <li> <a href="/"> New room </a> </li>
                 <li>Join a room</li>
                 <li>About</li>
             </ul>
@@ -51,13 +51,20 @@
     </header>
     <main>
         <div class="appContainer">
-            <div id="viewbox"></div>
+            <div id="viewbox">
+                <div class="videoFrame"></div>
+                <div id="videoFramTitleContainer">
+                    <h2 id=""></h2>
+                </div>
+            </div>
 
             <div id="playlist">
                 <div class="listTitle">
                     <h3>En attente :</h3>
                 </div>
-
+                <div class="innerPlaylist">
+                    <!-- append -->
+                </div>
                 <!--
                 <div class="playlistVideo">
                     <img class="videoThumbnail"
@@ -68,23 +75,28 @@
                 </div>
                 -->
 
-                <footer class="playlistFooter">
-                    <div class="addButtonDiv">
-                        <input type="text" id="addVideoText" placeholder="URL de la vidéo">
-                        <button id="addVideoButton" onclick="onClickAddVideoButton()">Ajouter une vidéo</button>
-                    </div>
-                </footer>
+                <div class="addButtonDiv">
+                    <input type="text"
+                           id="addVideoText"
+                           placeholder="URL de la vidéo">
+                    <button id="addVideoButton"
+                            onclick="onClickAddVideoButton()">Add</button>
+                </div>
             </div>
 
             <div id="userlist">
                 <div class="listTitle">
-                    <h3>Actuellement connecté(e)(s) :</h3>
+                    <h3 id="listTitle">Actuellement connecté:</h3>
                 </div>
-                <div class="user">
-                    <img class="userPic"
-                         src="{{ template_args.default_user_img }}"
-                         alt="userPhoto">
-                    <p id="userNameID" class="userName">{{ template_args.current_user.get_pseudo() }}</p>
+                <div id="innerUserList"
+                     style="overflow:scroll">
+                    <div class="user">
+                        <img class="userPic"
+                             src="{{ template_args.default_user_img }}"
+                             alt="userPhoto">
+                        <p id="userNameID"
+                           class="userName">{{ template_args.current_user.get_pseudo() }}</p>
+                    </div>
                 </div>
             </div>
         </div>
