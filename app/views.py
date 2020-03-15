@@ -3,16 +3,17 @@ from flask_socketio import SocketIO, join_room, leave_room, send, emit
 
 import namegenerator
 
-from rooms import RoomManager
-from roles import Roles
-from user import User
+from app.models.rooms import *
+from app.models.user import *
+from app.models.roles import *
 
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config=True)
+app.config.from_object('config')
 socket_io = SocketIO(app)
 
 room_manager = RoomManager()
-
 sockets_rooms = {}
+
 
 @app.route('/')
 def show_index():
@@ -21,13 +22,16 @@ def show_index():
     user = User(generated_pseudo, user_ip_address, Roles.CREATOR)
 
     generated_room_id = room_manager.add_new_room__(user)
+    print("Création de la room %d." % generated_room_id, end="\n\n")
+
     return redirect(url_for('show_room_page', room_id=generated_room_id))
 
 
 @app.route('/rooms/<int:room_id>')
 def show_room_page(room_id):
     if room_manager.check_room(room_id) is False:
-        print("Un user a tenté d'accéder a une room inexistante (%d). Redirection vers la racine..." % room_id)
+        print("Un user a tenté d'accéder a une room inexistante (%d). Redirection vers la racine..." % room_id,
+              end="\n\n")
         return redirect(url_for('show_index'))
 
     current_user = connect_to_existing_room(room_id, request.remote_addr)
@@ -61,20 +65,24 @@ def connect_to_existing_room(room_id, ip_address):
         user = User(pseudo, ip_address, Roles.LAMBDA)
         room_manager.get_room_list()[room_id].add_new_user(user)
 
-    print("Nouvelle connection à la room {%s} : login[%s] - ip[%s] - role[%s]" % (str(room_id), user.get_pseudo(), user.get_ip_address(), user.get_role().name))
+    print("Nouvelle connection à la room {%s} : login[%s] - ip[%s] - role[%s]" % (
+    str(room_id), user.get_pseudo(), user.get_ip_address(), user.get_role().name))
     return user
+
+
+''' PARTIE ACCUEIL DES SOCKETS '''
 
 
 @socket_io.on('message')
 def new_socket_connection_handler(message):
-    str = "Nouvelle connexion avec message -> " + message
-    print(str)
+    str = "Message réçu d'un socket -> " + message
+    print(str, end="\n\n")
     emit('reponse', str)
 
 
 @socket_io.on('json')
 def handle_socket_json(json):
-    print("Nouvelle connexion avec json -> \n" + str(json))
+    print("json reçu d'un socket -> \n" + str(json), end="\n\n")
 
 
 @socket_io.on('join')
@@ -82,7 +90,7 @@ def on_join(data):
     username = data['username']
     room = data['room']
     join_room(room)
-    print("UN UTILISATEUR (%s)A REJOINT LE ROOM (%s) " % (username, room))
+    print("\t\t -> (%s) connecté à la room de sockets (%s) " % (username, room), end="\n\n")
     emit('join', 'Vous rejoignez la room %s' % room)
 
     if room not in sockets_rooms:
@@ -101,5 +109,13 @@ def tell_to_users_to_update_userlist(room):
         emit('appendUser', (i, url_for('static', filename='res/img/defaultUser.png')), room=room)
 
 
-if __name__ == '__main__':
-    socket_io.run(app, host='0.0.0.0')
+''' PARTIE AJOUT DE VIDEO '''
+
+
+@socket_io.on('videoAddRequest')
+def handle_video_add_request(data):
+    print("Demande d'ajout de vidéo reçue. Voici les détails :", end="\n\t")
+    print("username[%s]" % data['username'], "room[%s]" % data['room'],"videoURL[%s]" % data['videoURL'], sep="\n\t")
+    emit('reponse', 'Demande reçue l\'ami.')
+    print("Tentative de recherche de l'utilisateur")
+    print("\tsocketUser[%s] -- roomCreator[%s]" % (data['username'],room_manager.get_room_list()[int(data['room'])].get_creator().get_pseudo()))

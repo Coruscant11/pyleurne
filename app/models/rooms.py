@@ -1,5 +1,5 @@
 from random import randint
-from user import User
+
 
 class RoomManager:
 
