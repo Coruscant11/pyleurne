@@ -3,7 +3,7 @@ from flask_socketio import SocketIO, join_room, leave_room, send, emit
 
 import namegenerator
 
-from app.models.rooms import *
+from app.controllers.room_manager import RoomManager
 from app.models.user import *
 from app.models.roles import *
 
@@ -66,7 +66,7 @@ def connect_to_existing_room(room_id, ip_address):
         room_manager.get_room_list()[room_id].add_new_user(user)
 
     print("Nouvelle connection à la room {%s} : login[%s] - ip[%s] - role[%s]" % (
-    str(room_id), user.get_pseudo(), user.get_ip_address(), user.get_role().name))
+        str(room_id), user.get_pseudo(), user.get_ip_address(), user.get_role().name))
     return user
 
 
@@ -88,8 +88,9 @@ def handle_socket_json(json):
 @socket_io.on('join')
 def on_join(data):
     username = data['username']
-    room = data['room']
+    room = int(data['room'])
     join_room(room)
+
     print("\t\t -> (%s) connecté à la room de sockets (%s) " % (username, room), end="\n\n")
     emit('join', 'Vous rejoignez la room %s' % room)
 
@@ -103,10 +104,15 @@ def on_join(data):
 
 
 def tell_to_users_to_update_userlist(room):
-    emit('clear', 'clear the div', room=room)
+    print("\nEmit d'ordre de refresh userlist pour room[%s]..." % room)
+    emit('clearuserlist', 'Rafraichissement userlist', room=room)
 
     for i in sockets_rooms[room]:
-        emit('appendUser', (i, url_for('static', filename='res/img/defaultUser.png')), room=room)
+        url = url_for('static', filename='res/img/defaultUser.png')
+        print("emit -> (%s), (%s)" % (i, url))
+        emit('appendUser', (i, url), room=room)
+
+    print("")
 
 
 ''' PARTIE AJOUT DE VIDEO '''
@@ -114,8 +120,33 @@ def tell_to_users_to_update_userlist(room):
 
 @socket_io.on('videoAddRequest')
 def handle_video_add_request(data):
+    room_id = int(data['room'])
+    username = data['username']
+    video_url = data['videoURL']
+    userCaller = room_manager.get_room_list()[room_id].get_userlist()[username]
+
     print("Demande d'ajout de vidéo reçue. Voici les détails :", end="\n\t")
-    print("username[%s]" % data['username'], "room[%s]" % data['room'],"videoURL[%s]" % data['videoURL'], sep="\n\t")
-    emit('reponse', 'Demande reçue l\'ami.')
-    print("Tentative de recherche de l'utilisateur")
-    print("\tsocketUser[%s] -- roomCreator[%s]" % (data['username'],room_manager.get_room_list()[int(data['room'])].get_creator().get_pseudo()))
+    print("username[%s]" % username, "room[%d]" % room_id, "videoURL[%s]" % video_url, sep="\n\t")
+
+    print("Est-ce demandé par le créateur : ", end="")
+    print(userCaller == room_manager.get_room_list()[room_id].get_creator(), end="\n\n")
+
+    if room_manager.get_room_list()[room_id].get_playlist_manager().add_video(video_url, userCaller):
+        tell_to_users_to_update_playlist(room_id)
+
+    emit('videoValidation', 'Demande reçue l\'ami.')
+
+
+def tell_to_users_to_update_playlist(room_id):
+    print("\nEmit d'ordre de refresh playlist pour room[%s]..." % room_id)
+    emit('clearplaylist', "Rafraichissement playlist", room=room_id)
+
+    for i in room_manager.get_room_list()[room_id].get_playlist_manager().get_playlist():
+        video_url = i.get_video_url()
+        video_id = i.get_video_id()
+        caller = i.get_caller()
+
+        print("\tEmit -> (%s), (%s), (%s)" % (video_url, video_id, caller))
+        emit('appendVideo', (video_url, video_id, caller.get_pseudo()), room=room_id)
+
+    print("")
