@@ -5,9 +5,13 @@ let userNumber;
 let playlist = [];
 
 let socket = io();
+
+/*
 let ytbPlayer;
+*/
 
 clearUsersList();
+/*
 loadYoutubeAPI();
 
 function loadYoutubeAPI() {
@@ -48,6 +52,9 @@ function stopVideo() {
 function playVideo() {
     player.loadVideoById(playlist[0]);
 }
+
+*/
+
 
 /* Nettoie la div liste des utilisateurs connectés a la room */
 function clearUsersList() {
@@ -193,10 +200,12 @@ socket.on('appendVideo', (videoUrl, videoID, callingUser) => {
     addVideoOnPlaylist(videoUrl, videoID, callingUser);
 });
 
+/*
 socket.on('playvideo', (message) => {
     console.log("SERVER : " + message);
     playVideo();
 });
+*/
 
 socket.emit('join', { 'username': username, 'room': roomID }); // Connexion à la room
 

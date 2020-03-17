@@ -2,6 +2,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: "Lato", sans-serif;
+  overflow-x: hidden;
 }
 
 .navbar {
@@ -178,7 +179,7 @@ menu, a {
   max-height: 50px;
 }
 
-@media screen and (max-width: 1080px) {
+@media screen and (max-width: 1200px) {
   .appContainer {
     height: 120vh;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
