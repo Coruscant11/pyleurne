@@ -6,7 +6,6 @@ from app.models.rooms import Room
 class RoomManager:
 
     def __init__(self):
-        print("Initialisation du Room_Manager...")
         self.__roomsList = {}
         self.__next_population_acc = 0
 

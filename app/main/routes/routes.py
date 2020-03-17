@@ -1,13 +1,10 @@
 import namegenerator
 from flask import url_for, render_template, request, jsonify, redirect
 
-from app.controllers.room_manager import RoomManager
+from . import room_manager
 from app.models.roles import Roles
 from app.models.user import User
-from .. import flaskapp
-
-room_manager = RoomManager()
-print("Création du RoomManager...")
+from app import flaskapp
 
 
 @flaskapp.route('/')
